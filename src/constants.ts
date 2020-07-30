@@ -1,0 +1,2 @@
+export const DEFAULT_IDENTIFIER_KEY = 'id'
+export const DEFAULT_ON_CHANGE_DEBOUNCE = 200

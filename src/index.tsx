@@ -1,10 +1,6 @@
-import * as React from 'react'
-import styles from './styles.module.css'
+import ValuesSubscription from './values-subscription'
+import ValuesSubscriptionController from './values-subscription-controller'
 
-interface Props {
-  text: string
-}
+export { ValuesSubscriptionController }
 
-export const ExampleComponent = ({ text }: Props) => {
-  return <div className={styles.test}>Example Component: {text}</div>
-}
+export default ValuesSubscription
