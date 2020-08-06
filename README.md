@@ -176,12 +176,20 @@ Values Subscription is just render props wrapper and uses useValuesSubscription 
 | :--------------- | :----: | :-------------------------------------------------------------------------- |
 | subscriptionPath | String | Path to value, object or an array element you want to subscribe             |
 | onChange         |  func  | `function (newValues) {}` callback for when subscription values are changed |
-| onChangeDebounce | number | debounce for onChange callback                                              |
+| onChangeDebounce | number | debounce for onChange callback. The default value is 200                    |
 | config           | Config |                                                                             |
 
 ## Config Options
 
-| Option             |      Type       | Description                                                                                                                                                                        |
-| :----------------- | :-------------: | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| silencedFieldNames | Array of String | Change of a fieldName won't fire onChange callback, might be useful when subscribing to object partially                                                                           |
-| identifierKey      |     String      | Think of it as `key` in React, if you subscribe to an array element it must be identified to prevent firing onChange when deleting, index is not reliable so pass id in key option |
+| Option             |      Type       | Description                                                                                                                                                                                             |
+| :----------------- | :-------------: | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| silencedFieldNames | Array of String | Change of a fieldName won't fire onChange callback, might be useful when subscribing to object partially                                                                                                |
+| identifierKey      |     String      | Field name of key. Think of it as `key` in React, if you subscribe to an array element it must be identified to prevent firing onChange when deleting, index is not reliable. The default value is `id` |
+
+### Values Subscription Controller
+
+Render prop component for controlling subscriptions, currently it supports only pause subscription functionality.
+
+```jsx
+
+```
