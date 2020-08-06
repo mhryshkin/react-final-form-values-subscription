@@ -6,59 +6,49 @@ import {
 } from 'react-final-form'
 
 import ValuesSubscription, {
-  ValuesSubscriptionController
+  useValuesSubscription
 } from 'react-final-form-values-subscription'
+
+const initialValues = {}
+const onSubmit = () => {}
+
+const onCarInfoChange = () => {}
+
+const Car = () => {
+  useValuesSubscription({ subscriptionPath: 'car', onChange: onCarInfoChange })
+
+  return (
+    <>
+      <ReactFinalFormField name='car.makeYear'>
+        {({ input }) => (
+          <input
+            value={input.value}
+            type='text'
+            onChange={input.onChange}
+          ></input>
+        )}
+      </ReactFinalFormField>
+      <ReactFinalFormField name='car.color'>
+        {({ input }) => (
+          <input
+            value={input.value}
+            type='text'
+            onChange={input.onChange}
+          ></input>
+        )}
+      </ReactFinalFormField>
+    </>
+  )
+}
 
 const App = () => {
   return (
     <ReactFinalForm
-      onSubmit={() => {}}
+      onSubmit={onSubmit}
       subscription={{}}
-      initialValues={{
-        data: {
-          test: '222',
-          test1: '2323'
-        }
-      }}
+      initialValues={initialValues}
     >
-      {({ form }) => {
-        return (
-          <ValuesSubscriptionController>
-            {(controller) => {
-              return (
-                <ValuesSubscription
-                  subscriptionPath='data'
-                  onChange={(newValues) => console.log(newValues)}
-                >
-                  <ReactFinalFormField name='data.test'>
-                    {({ input }) => {
-                      return (
-                        <>
-                          <input
-                            value={input.value}
-                            type='text'
-                            onChange={input.onChange}
-                          ></input>
-                        </>
-                      )
-                    }}
-                  </ReactFinalFormField>
-                  <button
-                    onClick={() => {
-                      controller.pauseSubscriptions(() => {
-                        form.change('data.test', 'some')
-                      })
-                    }}
-                  >
-                    {' '}
-                    pause subscriptions{' '}
-                  </button>
-                </ValuesSubscription>
-              )
-            }}
-          </ValuesSubscriptionController>
-        )
-      }}
+      {() => <Car />}
     </ReactFinalForm>
   )
 }
