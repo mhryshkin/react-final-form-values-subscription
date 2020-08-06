@@ -1,13 +1,19 @@
 {
-  "name": "react-final-form-values-subscription",
+  "name": "react-final-form-values-subscriptions",
   "version": "1.0.0",
   "description": "A component to subscribe to any values of react final form in declarative way.",
-  "author": "Makary Hryshkin",
+  "author": "mhryshkin",
   "license": "MIT",
   "repository": "https://github.com/mhryshkin/react-final-form-values-subscription.git",
   "main": "dist/index.js",
   "module": "dist/index.modern.js",
   "source": "src/index.tsx",
+  "keywords": [
+    "react",
+    "final-form",
+    "react-final-form",
+    "typescript"
+  ],
   "engines": {
     "node": ">=10"
   },
