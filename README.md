@@ -10,12 +10,6 @@ Install from npm:
 $ npm install react-final-form-values-subscription --save
 ```
 
-Import in your project:
-
-```javascript
-import ValuesSubscription from 'react-final-form-values-subscription'
-```
-
 ## The problem
 
 Let's suppose there are some values in a final form state with the following shape:
@@ -35,7 +29,7 @@ Let's suppose there are some values in a final form state with the following sha
     }
   ],
   "car": {
-    "make&Model": "Hyundai Verna",
+    "model": "Hyundai Verna",
     "makeYear": 2015,
     "color": "Black",
     "type": "Sedan"
@@ -168,28 +162,75 @@ const App = () => (
 )
 ```
 
-Values Subscription is just render props wrapper and uses useValuesSubscription thus they have the same options
+Values Subscription is just a render props wrapper and uses useValuesSubscription thus they have the same options
 
 ## Options
 
-| Option           |  Type  | Description                                                                 |
-| :--------------- | :----: | :-------------------------------------------------------------------------- |
-| subscriptionPath | String | Path to value, object or an array element you want to subscribe             |
-| onChange         |  func  | `function (newValues) {}` callback for when subscription values are changed |
-| onChangeDebounce | number | debounce for onChange callback. The default value is 200                    |
-| config           | Config |                                                                             |
+| Option           |  Type  | Required | Default | Description                                                                 |
+| :--------------- | :----: | :------: | :-----: | --------------------------------------------------------------------------- |
+| subscriptionPath | String |    +     |    -    | Path to value, object or an array element you want to subscribe             |
+| onChange         |  func  |    +     |    -    | `function (newValues) {}` callback for when subscription values are changed |
+| onChangeDebounce | number |    -     |   200   | debounce for onChange callback                                              |
+| config           | Config |    -     |  null   |                                                                             |
 
 ## Config Options
 
-| Option             |      Type       | Description                                                                                                                                                                                             |
-| :----------------- | :-------------: | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| silencedFieldNames | Array of String | Change of a fieldName won't fire onChange callback, might be useful when subscribing to object partially                                                                                                |
-| identifierKey      |     String      | Field name of key. Think of it as `key` in React, if you subscribe to an array element it must be identified to prevent firing onChange when deleting, index is not reliable. The default value is `id` |
+| Option             |      Type       | Required | Default | Description                                                                                                                                                                   |
+| :----------------- | :-------------: | :------: | :-----: | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| silencedFieldNames | Array of String |    -     |    -    | Change of a fieldName won't fire onChange callback, might be useful when subscribing to object partially                                                                      |
+| identifierKey      |     String      |    -     |  'id'   | Field name of key. Think of it as `key` in React, if you subscribe to an array element it must be identified to prevent firing onChange when deleting, index is not reliable. |
 
 ### Values Subscription Controller
 
-Render prop component for controlling subscriptions, currently it supports only pause subscription functionality.
+Sometimes it is might be necessary to pause subscriptions while doing some form state mutations.
+Values Subscription Controller is a render prop component which provides `controller` to manipulate subscriptions, currently it supports only
+`pauseSubscription` functionality.
+
+**_Values Subscription controller affects only children subscriptions, you can have as many controllers as you need_**
 
 ```jsx
-
+const App = () => (
+  <ReactFinalForm
+    onSubmit={onSubmit}
+    subscription={{}}
+    initialValues={initialValues}
+  >
+    {({ form }) => (
+      <ValuesSubscriptionController>
+        {(subscriptionController) => (
+          <ValuesSubscription subscriptionPath='car' onChange={onCarInfoChange}>
+            <ReactFinalFormField name='car.makeYear'>
+              {({ input }) => (
+                <input
+                  value={input.value}
+                  type='text'
+                  onChange={input.onChange}
+                ></input>
+              )}
+            </ReactFinalFormField>
+            <ReactFinalFormField name='car.color'>
+              {({ input }) => (
+                <input
+                  value={input.value}
+                  type='text'
+                  onChange={input.onChange}
+                ></input>
+              )}
+            </ReactFinalFormField>
+            <button
+              onClick={() => {
+                subscriptionController.pauseSubscriptions(() => {
+                  // all form values changes which are made in pauseSubscription don't trigger onInfoCarChange
+                  form.change('car.makeYear', '')
+                })
+              }}
+            >
+              pause subscriptions
+            </button>
+          </ValuesSubscription>
+        )}
+      </ValuesSubscriptionController>
+    )}
+  </ReactFinalForm>
+)
 ```
