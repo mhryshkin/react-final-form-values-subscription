@@ -10,7 +10,7 @@ Install from npm:
 $ npm install react-final-form-values-subscription --save
 ```
 
-## The problem
+## Intro
 
 Let's suppose there are some values in a final form state with the following shape:
 
